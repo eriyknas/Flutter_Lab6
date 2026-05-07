@@ -1,17 +1,49 @@
-# slot_machine
+#  Учебное заведение. 🎰 Слот-машина на Flutter
+Простое -приложение - симулятор казино. Крути барабаны, собирай одинаковые символы и выигрывай монеты!
 
-A new Flutter project.
+## 📸 Скриншоты
 
-## Getting Started
+| Главный экран | Победа | Монеты закончились |
+|:---:|:---:|:---:|
+| ![Главный экран](steps/main_screen.png) | ![Победа](steps/win.png) | ![Джекпот](steps/no_coins.png ) |
 
-This project is a starting point for a Flutter application.
+## 🎮 Как играть
 
-A few resources to get you started if this is your first Flutter project:
+- Нажмите **КРУТИТЬ** чтобы запустить барабаны
+- **Три одинаковых символа** — победа (+3 монеты)
+- **Три семёрки** — джекпот (+10 монет)
+- **Разные символы** — проигрыш (-1 монета)
+- Начните заново кнопкой **Начать заново** 
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## 🚀 Запуск проекта
+**Требования**: Flutter 3.x, Dart 3.x
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone https://github.com/Paltosik92/slot_machine
+cd slot_machine
+flutter pub get
+flutter run -d chrome
+flutter run -d android
+```
+
+## Установка на Android
+Скачайте готовый APK:
+[app-release.apk](https://app-release.apk)
+
+## Технологии
+- **Flutter** 3.41.2
+- **Dart** 3.11.0
+- Платформы: Web, Android
+
+## 📚 Что изучено в ходе работы
+- StatefulWidget и управление состоянием через `setState()`
+- Работа с локальными изображениями через `Image.asset()`
+- Генерация случайных чисел через `dart:math`
+- Анимация через `async/await` и `AnimatedOpacity`
+- Создание собственных виджетов (SlotRow)
+- Создание иконки в Krita и подключение через `flutter_launcher_icons`
+- Сборка приложения под `Web` и `Android`
+
+## 👨‍💻 Автор
+Чешуина А.Д., Антонова П.А. - группа: ИСП-231
+Лабораторная работы №6, 2026 год
