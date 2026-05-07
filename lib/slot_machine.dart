@@ -17,24 +17,7 @@ class _SlotMachineState extends State<SlotMachine> {
     'assets/images/lemon.png',
     'assets/images/seven.png',
   ];
-  void _reset() {
-    setState(() {
-      _coins = 10;
-      _slot1 = 'assets/images/cherry.png';
-      _slot2 = 'assets/images/lemon.png';
-      _slot3 = 'assets/images/seven.png';
-      _message = "";
-      _isSpinning = false;
-    });
-  }
-
-  var _coins = 10;
-  var _slot1 = 'assets/images/cherry.png';
-  var _slot2 = 'assets/images/lemon.png';
-  var _slot3 = 'assets/images/seven.png';
-  var _message = "";
-  var _isSpinning = false;
-  var _isMuted = false;
+  
 
   Future<String> _spinReel({
     required int totalTicks,
@@ -56,7 +39,7 @@ class _SlotMachineState extends State<SlotMachine> {
   }
 
   Future<void> _spin() async {
-    if (_coins <= 0 || !_isSpinning) return;
+    if (_coins <= 0 || _isSpinning) return;
     await SoundService.playClick();
     setState(() {
       _isSpinning = true;
@@ -74,7 +57,6 @@ class _SlotMachineState extends State<SlotMachine> {
       totalTicks: 16,
       onTick: (val) => setState(() => _slot3 = val),
     );
-    await Future.delayed(Duration(milliseconds: 300));
     await Future.delayed(Duration(milliseconds: 300));
     String newMessage;
     int coinsChange;
@@ -99,6 +81,24 @@ class _SlotMachineState extends State<SlotMachine> {
       _message = newMessage;
     });
   }
+  void _reset() {
+    setState(() {
+      _coins = 10;
+      _slot1 = 'assets/images/cherry.png';
+      _slot2 = 'assets/images/lemon.png';
+      _slot3 = 'assets/images/seven.png';
+      _message = "";
+      _isSpinning = false;
+    });
+  }
+
+  var _coins = 10;
+  var _slot1 = 'assets/images/cherry.png';
+  var _slot2 = 'assets/images/lemon.png';
+  var _slot3 = 'assets/images/seven.png';
+  var _message = "";
+  var _isSpinning = false;
+  var _isMuted = false;
 
   @override
   void initState() {
