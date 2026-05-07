@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:slot_machine/slot_row.dart';
+import 'sound_service.dart';
 
 class SlotMachine extends StatefulWidget {
   const SlotMachine({super.key});
@@ -33,6 +34,8 @@ class _SlotMachineState extends State<SlotMachine> {
   var _slot3 = 'assets/images/seven.png';
   var _message = "";
   var _isSpinning = false;
+  var _isMuted = false;
+  var _backgroundStarted = false;
 
   Future<String> _spinReel({
     required int totalTicks,
@@ -55,10 +58,15 @@ class _SlotMachineState extends State<SlotMachine> {
 
   Future<void> _spin() async {
     if (_coins <= 0 || !_isSpinning) return;
+    SoundService.playClick();
     setState(() {
       _isSpinning = true;
       _message = '';
     });
+    if (!_backgroundStarted) {
+      SoundService.playBackground();
+      _backgroundStarted = true;
+    }
     final result1 = await _spinReel(
       totalTicks: 10,
       onTick: (val) => setState(() => _slot1 = val),
@@ -78,14 +86,30 @@ class _SlotMachineState extends State<SlotMachine> {
         if (result1 == 'assets/images/seven.png') {
           _coins += 10;
           _message = 'ДЖЕКПОТ! 🎰🎰🎰 +10 монет';
+          SoundService.playJackpot();
         } else {
           _coins += 3;
           _message = 'Победа! 🎉 +3 монеты';
+          SoundService.playWin();
         }
       } else {
         _coins -= 1;
         _message = 'Попробуй ещё раз 😔 -1 монета';
+        SoundService.playLose();
       }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SoundService.playBackground();
+  }
+
+  void _toggleMute() {
+    SoundService.toggleMute();
+    setState(() {
+      _isMuted = SoundService.isMuted;
     });
   }
 
@@ -94,6 +118,20 @@ class _SlotMachineState extends State<SlotMachine> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 16, top: 8),
+            child: IconButton(
+              onPressed: _toggleMute,
+              icon: Icon(
+                _isMuted ? Icons.volume_off : Icons.volume_up,
+                color: Colors.white,
+                size: 28,
+              ), // Icon
+            ), // IconButton
+          ), // Padding
+        ),
         Text(
           '💰 Монеты: $_coins',
           style: TextStyle(
