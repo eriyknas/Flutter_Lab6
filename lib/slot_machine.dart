@@ -15,13 +15,29 @@ class _SlotMachineState extends State<SlotMachine> {
     'assets/images/lemon.png',
     'assets/images/seven.png',
   ];
+  void _reset() {
+    setState(() {
+      _coins = 10;
+      _slot1 = 'assets/images/cherry.png';
+      _slot2 = 'assets/images/lemon.png';
+      _slot3 = 'assets/images/seven.png';
+      _message = "";
+    });
+  }
+
   var _coins = 10;
   var _slot1 = 'assets/images/cherry.png';
   var _slot2 = 'assets/images/lemon.png';
   var _slot3 = 'assets/images/seven.png';
-  var _message = "" ;
+  var _message = "";
 
   void _spin() {
+    if (_coins <= 0) {
+      setState(() {
+        _message = 'Ьонеты закончились! 😔';
+      });
+      return;
+    }
     setState(() {
       _slot1 = _symbols[_random.nextInt(_symbols.length)];
       _slot2 = _symbols[_random.nextInt(_symbols.length)];
@@ -64,20 +80,14 @@ class _SlotMachineState extends State<SlotMachine> {
         SizedBox(height: 24),
         Text(
           _message,
-          style: const TextStyle(
-            fontSize: 20, 
-            color: Colors.white
-          ),
+          style: const TextStyle(fontSize: 20, color: Colors.white),
         ),
         SizedBox(height: 40),
         ElevatedButton(
-          onPressed: _spin,
+          onPressed: _coins > 0 ? _spin : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.amber,
-            padding: EdgeInsets.symmetric(
-              horizontal: 40, 
-              vertical: 15
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
           ),
           child: Text(
             'КРУТИТЬ 🎰',
@@ -87,6 +97,17 @@ class _SlotMachineState extends State<SlotMachine> {
               color: Colors.black,
             ),
           ),
+        ),
+        SizedBox(height: 12),
+        TextButton(
+          onPressed: _reset,
+          child: Text(
+            'Начать заново',
+            style: TextStyle(
+              color: Colors.white70, 
+              fontSize: 16
+            ), // TextStyle
+          ), // Text
         ),
       ],
     );
